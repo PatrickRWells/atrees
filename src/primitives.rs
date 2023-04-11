@@ -61,16 +61,16 @@ impl Rectangle {
         let other_bounds = other_bbox.bounds();
         let self_bounds = self.bounds();
         if self_bounds[0] > other_bounds[2] {
-            return false
+            return false;
         }
         if self_bounds[1] > other_bounds[3] {
-            return false
+            return false;
         }
         if self_bounds[2] < other_bounds[0] {
-            return false
+            return false;
         }
         if self_bounds[3] < other_bounds[1] {
-            return false
+            return false;
         }
         true
     }
@@ -85,11 +85,10 @@ impl Geometric for Rectangle {
     }
 
     fn center(&self) -> Point {
-        let cx = (self.bounds[0] + self.bounds[2])*0.5;
-        let cy = (self.bounds[1] + self.bounds[3])*0.5;
-        Point { coords: [cx, cy], idx: None}
+        let cx = (self.bounds[0] + self.bounds[2]) * 0.5;
+        let cy = (self.bounds[1] + self.bounds[3]) * 0.5;
+        Point { coords: [cx, cy], idx: None }
     }
-
 }
 
 impl Point {
@@ -99,7 +98,6 @@ impl Point {
     pub(crate) fn y(&self) -> f64 {
         self.coords[1]
     }
-
 }
 
 impl Geometric for Point {
@@ -118,6 +116,6 @@ impl Geometric for Point {
     }
 
     fn center(&self) -> Point {
-        return self.clone()
+        return self.clone();
     }
 }
