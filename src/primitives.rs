@@ -13,6 +13,7 @@ pub struct Point {
 pub(crate) trait Geometric {
     fn bounding_box(&self) -> Rectangle;
     fn get_idx(&self) -> Option<usize>;
+    fn center(&self) -> Point;
 }
 
 impl Rectangle {
@@ -54,6 +55,25 @@ impl Rectangle {
         }
         dbounds
     }
+
+    pub(crate) fn overlaps(&self, other: &impl Geometric) -> bool {
+        let other_bbox = other.bounding_box();
+        let other_bounds = other_bbox.bounds();
+        let self_bounds = self.bounds();
+        if self_bounds[0] > other_bounds[2] {
+            return false
+        }
+        if self_bounds[1] > other_bounds[3] {
+            return false
+        }
+        if self_bounds[2] < other_bounds[0] {
+            return false
+        }
+        if self_bounds[3] < other_bounds[1] {
+            return false
+        }
+        true
+    }
 }
 
 impl Geometric for Rectangle {
@@ -63,6 +83,23 @@ impl Geometric for Rectangle {
     fn get_idx(&self) -> Option<usize> {
         return self.idx.clone();
     }
+
+    fn center(&self) -> Point {
+        let cx = (self.bounds[0] + self.bounds[2])*0.5;
+        let cy = (self.bounds[1] + self.bounds[3])*0.5;
+        Point { coords: [cx, cy], idx: None}
+    }
+
+}
+
+impl Point {
+    pub(crate) fn x(&self) -> f64 {
+        self.coords[0]
+    }
+    pub(crate) fn y(&self) -> f64 {
+        self.coords[1]
+    }
+
 }
 
 impl Geometric for Point {
@@ -78,5 +115,9 @@ impl Geometric for Point {
     }
     fn get_idx(&self) -> Option<usize> {
         return self.idx.clone();
+    }
+
+    fn center(&self) -> Point {
+        return self.clone()
     }
 }

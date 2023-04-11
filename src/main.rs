@@ -1,5 +1,6 @@
 mod primitives;
 mod sky;
+mod tree;
 
 fn main() {
     let mut the_sky = sky::Sky::new();
